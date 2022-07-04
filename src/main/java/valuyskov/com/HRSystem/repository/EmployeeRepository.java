@@ -1,6 +1,6 @@
-package repository;
+package valuyskov.com.HRSystem.repository;
 
-import model.Employee;
+import valuyskov.com.HRSystem.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
