@@ -1,5 +1,6 @@
 package valuyskov.com.HRSystem.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import valuyskov.com.HRSystem.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import valuyskov.com.HRSystem.repository.EmployeeRepository;
 
 import java.util.List;
 
+
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/")
 public class EmployeeController {
