@@ -9,8 +9,10 @@ import java.util.Optional;
 
 public interface EmployeeService {
 
-    Employee saveEmployee(Employee employee) throws EmployeeAlreadyExistException;
+    Employee updateEmployee(Employee employee) throws EmployeeAlreadyExistException;
+    Employee createEmployee(Employee employee) throws EmployeeAlreadyExistException;
     List getAllEmployees() throws EntityNotFoundException;
     Employee getEmployeeById (Long id) throws EntityNotFoundException;
+    Long deleteEmployee(Long id) throws EntityNotFoundException;
 
 }

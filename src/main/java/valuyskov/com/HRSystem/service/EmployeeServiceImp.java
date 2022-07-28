@@ -19,7 +19,7 @@ public class EmployeeServiceImp implements EmployeeService {
     }
 
     @Override
-    public Employee saveEmployee(Employee employee) throws EmployeeAlreadyExistException {
+    public Employee createEmployee(Employee employee) throws EmployeeAlreadyExistException {
         Employee savedEmployee = employeeRepository.save(employee);
         return savedEmployee;
     }
@@ -35,8 +35,21 @@ public class EmployeeServiceImp implements EmployeeService {
         if(employee == null) {
             throw new EntityNotFoundException(Employee.class, "id", id.toString());
         }
-
         return employee;
     }
 
+    @Override
+    public Long deleteEmployee(Long id) throws EntityNotFoundException {
+        Employee employee = employeeRepository.findById(id).orElse(null);
+        if(employee == null) {
+            throw new EntityNotFoundException(Employee.class, "id", id.toString());
+        }
+        employeeRepository.deleteById(id);
+        return id;
+    }
+
+    @Override
+    public Employee updateEmployee(Employee employee) throws EmployeeAlreadyExistException {
+        return null;
+    }
 }

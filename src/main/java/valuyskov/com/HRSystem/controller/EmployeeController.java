@@ -9,7 +9,9 @@ import valuyskov.com.HRSystem.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import valuyskov.com.HRSystem.service.EmployeeService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -37,9 +39,18 @@ public class EmployeeController {
 
     @PostMapping("/employees")
     public ResponseEntity createEmployee(@RequestBody Employee employee) throws EmployeeAlreadyExistException {
-            Employee savedEmployee = employeeService.saveEmployee(employee);
+            Employee savedEmployee = employeeService.createEmployee(employee);
             return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
 
+    }
+
+    public ResponseEntity updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails){
+        Employee employee = employeeService.getEmployeeById(id);
+        employee.setFirstName(employeeDetails.getFirstName());
+        employee.setLastName(employeeDetails.getLastName());
+        employee.setEmail(employeeDetails.getEmail());
+        Employee updatedEmployee = employeeService.updateEmployee(employee);
+        return  ResponseEntity.ok(updatedEmployee);
     }
 
 
@@ -53,13 +64,13 @@ public class EmployeeController {
 //        return ResponseEntity.ok(updatedEmployee);
 //    }
 //
-//    @DeleteMapping("/employees/{id}")
-//    public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Long id) {
-//        Employee employee = employeeRepository.findById(id).orElseThrow(()-> ;
-//        employeeRepository.delete(employee);
-//        Map<String, Boolean> response  = new HashMap<>();
-//        response.put("deleted", Boolean.TRUE);
-//        return ResponseEntity.ok(response);
-//    }
+    @DeleteMapping("/employees/{id}")
+    public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Long id) {
+        Employee employee = employeeService.getEmployeeById(id);
+        employeeService.deleteEmployee(employee.getId());
+        Map<String, Boolean> response  = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return ResponseEntity.ok(response);
+    }
 
 }
