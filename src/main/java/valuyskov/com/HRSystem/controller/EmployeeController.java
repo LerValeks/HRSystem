@@ -4,19 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import valuyskov.com.HRSystem.exception.EmployeeAlreadyExistException;
-import valuyskov.com.HRSystem.exception.EmployeeNotFoundException;
-import valuyskov.com.HRSystem.exception.ResourceNotFoundException;
+import valuyskov.com.HRSystem.exception.EntityNotFoundException;
 import valuyskov.com.HRSystem.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
-import valuyskov.com.HRSystem.repository.EmployeeRepository;
 import valuyskov.com.HRSystem.service.EmployeeService;
-import valuyskov.com.HRSystem.service.EmployeeServiceImp;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -29,31 +23,23 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping("/employees")
-    public ResponseEntity<List> getAllEmployees()  throws EmployeeNotFoundException
+    public ResponseEntity<List> getAllEmployees()  throws EntityNotFoundException
     {
         return new ResponseEntity<List>((List) employeeService.getAllEmployees(), HttpStatus.OK);
     }
 
 
     @GetMapping("/employees/{id}")
-    public ResponseEntity  getEmployeeById(@PathVariable Long id)  throws EmployeeNotFoundException
+    public Employee getEmployeeById(@PathVariable Long id)  throws EntityNotFoundException
     {
-        try {
-            return new ResponseEntity(employeeService.getEmployeeById(id), HttpStatus.OK);
-        }
-        catch (EmployeeNotFoundException employeeNotFoundException) {
-            return new ResponseEntity(employeeNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return employeeService.getEmployeeById(id);
     }
 
     @PostMapping("/employees")
     public ResponseEntity createEmployee(@RequestBody Employee employee) throws EmployeeAlreadyExistException {
-        if(employeeService.exist(employee.getEmail())!=true) {
             Employee savedEmployee = employeeService.saveEmployee(employee);
             return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
-        }
-        else
-            return new ResponseEntity<>( HttpStatus.CONFLICT);
+
     }
 
 

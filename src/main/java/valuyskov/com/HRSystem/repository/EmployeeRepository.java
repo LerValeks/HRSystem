@@ -1,14 +1,13 @@
 package valuyskov.com.HRSystem.repository;
 
-import valuyskov.com.HRSystem.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import org.springframework.stereotype.Repository;
+import valuyskov.com.HRSystem.model.Employee;
+
 
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee, Long>{
-    public Optional<Employee> findByEmail (String email);
-    boolean existsByEmail(String email);
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+
 }

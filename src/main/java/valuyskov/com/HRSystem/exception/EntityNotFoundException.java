@@ -7,11 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-public class EmployeeNotFoundException extends  RuntimeException {
-    private String message;
+public class EntityNotFoundException extends  RuntimeException {
 
-    public EmployeeNotFoundException(Class clazz, String... searchParamsMap) {
-        super(EmployeeNotFoundException.generateMessage(clazz.getSimpleName(), toMap(String.class, String.class, searchParamsMap)));
+    public EntityNotFoundException(Class clazz, String... searchParamsMap) {
+        super(EntityNotFoundException.generateMessage(clazz.getSimpleName(), toMap(String.class, String.class, searchParamsMap)));
     }
 
 
