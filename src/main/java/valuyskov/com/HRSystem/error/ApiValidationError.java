@@ -17,4 +17,10 @@ public class ApiValidationError extends ApiSubError {
             this.object = object;
             this.message = message;
         }
+
+    ApiValidationError(String object,String field, String message) {
+        this.object = object;
+        this.field = field;
+        this.message = message;
+    }
 }
