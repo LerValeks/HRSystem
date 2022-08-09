@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 
 @Entity
@@ -24,6 +25,7 @@ public class Employee {
     @Column(name="email", unique=true)
     private String email;
     @Column(name="age")
+    @Min(18)
     private Integer age;
 
 
