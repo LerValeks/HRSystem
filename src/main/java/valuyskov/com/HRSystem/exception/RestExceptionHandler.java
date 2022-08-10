@@ -40,7 +40,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         ServletWebRequest servletWebRequest = (ServletWebRequest) request;
         log.info("{} to {}", servletWebRequest.getHttpMethod(), servletWebRequest.getRequest().getServletPath());
-        Boolean isInstanceOfIvalidFormat = ex.getCause() instanceof InvalidFormatException;
+
         if (ex.getCause() instanceof InvalidFormatException) {
             InvalidFormatException iex = (InvalidFormatException) ex.getCause();
             ApiError apiError = new ApiError(BAD_REQUEST);
