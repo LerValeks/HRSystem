@@ -1,13 +1,12 @@
 package valuyskov.com.HRSystem.exception;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,15 +17,11 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import valuyskov.com.HRSystem.error.ApiError;
-import valuyskov.com.HRSystem.error.ApiSubError;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 
-import java.util.*;
+import javax.persistence.EntityExistsException;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
@@ -40,7 +35,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         ServletWebRequest servletWebRequest = (ServletWebRequest) request;
         log.info("{} to {}", servletWebRequest.getHttpMethod(), servletWebRequest.getRequest().getServletPath());
-        Boolean isInstanceOfIvalidFormat = ex.getCause() instanceof InvalidFormatException;
+
         if (ex.getCause() instanceof InvalidFormatException) {
             InvalidFormatException iex = (InvalidFormatException) ex.getCause();
             ApiError apiError = new ApiError(BAD_REQUEST);
@@ -62,6 +57,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleEntityNotFound(
             EntityNotFoundException ex) {
         ApiError apiError = new ApiError(NOT_FOUND);
+        apiError.setMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+
+
+    @ExceptionHandler(EntityExistsException.class)
+    protected ResponseEntity<Object> handleEntityExistException(
+            EntityExistsException ex) {
+        ApiError apiError = new ApiError(NOT_ACCEPTABLE);
         apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }

@@ -3,7 +3,6 @@ package valuyskov.com.HRSystem.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import valuyskov.com.HRSystem.exception.EmployeeAlreadyExistException;
 import valuyskov.com.HRSystem.exception.EntityNotFoundException;
 import valuyskov.com.HRSystem.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import valuyskov.com.HRSystem.service.EmployeeService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -38,12 +36,13 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public ResponseEntity createEmployee(@RequestBody Employee employee) throws EmployeeAlreadyExistException {
+    public ResponseEntity createEmployee(@RequestBody Employee employee)  {
             Employee savedEmployee = employeeService.createEmployee(employee);
             return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
 
     }
 
+    @PutMapping("/employees/{id}")
     public ResponseEntity updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails){
         Employee employee = employeeService.getEmployeeById(id);
         employee.setFirstName(employeeDetails.getFirstName());
@@ -53,17 +52,16 @@ public class EmployeeController {
         return  ResponseEntity.ok(updatedEmployee);
     }
 
+    @PutMapping("/employees/email={email}")
+    public ResponseEntity updateEmployeeByEmail(@PathVariable String email, @RequestBody Employee employeeDetails){
+        Employee employee = employeeService.getEmployeeByEmail(email);
+        employee.setFirstName(employeeDetails.getFirstName());
+        employee.setLastName(employeeDetails.getLastName());
+        Employee updatedEmployee = employeeService.updateEmployee(employee, true);
+        return  ResponseEntity.ok(updatedEmployee);
+    }
 
-//    @PutMapping("/employees/{id}")
-//    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails){
-//        Employee employee = employeeRepository.findById(id).orElseThrow(()-> ;
-//        employee.setFirstName(employeeDetails.getFirstName());
-//        employee.setLastName(employeeDetails.getLastName());
-//        employee.setEmail(employeeDetails.getEmail());
-//        Employee updatedEmployee = employeeRepository.save(employee);
-//        return ResponseEntity.ok(updatedEmployee);
-//    }
-//
+
     @DeleteMapping("/employees/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Long id) {
         Employee employee = employeeService.getEmployeeById(id);

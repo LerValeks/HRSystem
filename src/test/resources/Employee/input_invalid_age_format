@@ -1,6 +1,7 @@
 {
-  "firstName": "AL",
-  "lastName": "Val",
-  "email": "al1@gmail.com",
-  "age": "text"
-}
+   "firstName": "AL",
+   "lastName": "Val",
+   "email": "al1@gmail.com",
+   "age": "text",
+   "salary":100
+ }

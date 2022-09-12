@@ -5,9 +5,11 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import java.math.BigDecimal;
 
 
 @Entity
@@ -27,6 +29,10 @@ public class Employee {
     @Column(name="age")
     @Min(18)
     private Integer age;
+    @Column(name= "salary")
+    @Min(0)
+    private Integer salary;
+
 
 
     public Employee(String firstName, String lastName, String email) {
