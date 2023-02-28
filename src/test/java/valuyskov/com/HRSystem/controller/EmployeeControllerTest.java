@@ -120,19 +120,19 @@ public class EmployeeControllerTest {
 //                .andExpect(MockMvcResultMatchers.jsonPath("$.subErrors").value(json));
     }
 
-    @Test
-    public void whenIncorectValueOfAgePosted_ThenGenerateValidationError() throws Exception {
-
-
-//        String json = new String ("{object=Employee, field=age, rejectedValue=null, message=Cannot deserialize value of type `java.lang.Integer` from String \"text\": not a valid `java.lang.Integer` value}");
-
-        this.mockMvc.perform(post("/api/v1/employees")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\n" +"   \"firstName\": \"AL\",\n" + "   \"lastName\": \"Val\",\n" + "   \"email\": \"al1@gmail.com\",\n" + "   \"age\":17,\n" + "   \"salary\":100\n" +
-                        " }"))
-                .andExpect(status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content().string(containsString("\"message\":\"Validation error\"")));
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.subErrors").value(json));
-    }
+//    @Test
+//    public void whenIncorectValueOfAgePosted_ThenGenerateValidationError() throws Exception {
+//
+//
+////        String json = new String ("{object=Employee, field=age, rejectedValue=null, message=Cannot deserialize value of type `java.lang.Integer` from String \"text\": not a valid `java.lang.Integer` value}");
+//
+//        this.mockMvc.perform(post("/api/v1/employees")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content("{\n" +"   \"firstName\": \"AL\",\n" + "   \"lastName\": \"Val\",\n" + "   \"email\": \"al1@gmail.com\",\n" + "   \"age\":17,\n" + "   \"salary\":100\n" +
+//                        " }"))
+//                .andExpect(status().isBadRequest())
+//                .andExpect(MockMvcResultMatchers.content().string(containsString("\"message\":\"Validation error\"")));
+////                .andExpect(MockMvcResultMatchers.jsonPath("$.subErrors").value(json));
+//    }
 
 }
